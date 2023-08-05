@@ -1,10 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Tes_hasil extends Member_Controller {
 	private $kode_menu = 'tes-hasil';
 	private $kelompok = 'tes';
@@ -123,7 +121,8 @@ class Tes_hasil extends Member_Controller {
 
     function export($tes_id=null, $grup_id=null, $waktu=null, $urutkan=null, $status=null, $keterangan=null){
         if(!empty($tes_id) AND !empty($grup_id) AND !empty($waktu) AND !empty($urutkan) AND !empty($status)){
-            $this->load->library('excel');
+            // $this->load->library('excel');
+
             $waktu =  urldecode($waktu);
             $tanggal = explode(" - ", $waktu);
 			if(!empty($keterangan)){
@@ -135,9 +134,12 @@ class Tes_hasil extends Member_Controller {
 			}else{
 				$query = $this->cbt_user_model->get_by_tes_group_urut_tanggal($tes_id, $grup_id, $urutkan, $tanggal, $keterangan);
 			}
-            $inputFileName = './public/form/form-data-hasil-tes.xls';
-            $excel = PHPExcel_IOFactory::load($inputFileName);
-            $worksheet = $excel->getSheet(0);
+            // $inputFileName = './public/form/form-data-hasil-tes.xls';
+            // $excel = PHPExcel_IOFactory::load($inputFileName);
+            // $worksheet = $excel->getSheet(0);
+			
+			$excel = new Spreadsheet();
+			$worksheet = $excel->getActiveSheet();
 
             if($query->num_rows()>0){
                 $query = $query->result();
@@ -154,14 +156,15 @@ class Tes_hasil extends Member_Controller {
                     $row++;
                 }
             }
-            $filename='Data Hasil Tes - '.date('Y-m-d H:i').'.xls'; //save our workbook as this file name
+            $filename='Data Hasil Tes - '.date('Y-m-d H:i').'.xlsx'; //save our workbook as this file name
             header('Content-Type: application/vnd.ms-excel'); //mime type
             header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
             header('Cache-Control: max-age=0'); //no cache
                  
             //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
             //if you want to save it as .XLSX Excel 2007 format
-            $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+            // $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+			$objWriter = new Xlsx($excel);
             //force user to download the Excel file without writing it to server's HD
             $objWriter->save('php://output');
         }
