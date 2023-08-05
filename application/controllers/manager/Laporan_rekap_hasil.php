@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Laporan_rekap_hasil extends Member_Controller {
 	private $kode_menu = 'laporan-rekap';
 	private $kelompok = 'laporan';
@@ -57,12 +60,15 @@ class Laporan_rekap_hasil extends Member_Controller {
         $this->form_validation->set_rules('nama-grup', 'Grup','required|strip_tags');
         $this->form_validation->set_rules('pilih-rentang-waktu', 'Rentang Waktu','required|strip_tags');
 
-        $this->load->library('excel');
+        // $this->load->library('excel');
         $this->load->library('tools');
             
-        $inputFileName = './public/form/form-data-rekap-hasil-tes.xlsx';
-        $excel = PHPExcel_IOFactory::load($inputFileName);
-        $worksheet = $excel->getSheet(0);
+        // $inputFileName = './public/form/form-data-rekap-hasil-tes.xlsx';
+        // $excel = PHPExcel_IOFactory::load($inputFileName);
+        // $worksheet = $excel->getSheet(0);
+
+        $excel = new Spreadsheet();
+		$worksheet = $excel->getActiveSheet();
         
         if($this->form_validation->run() == TRUE){
             $rentang_waktu = $this->input->post('pilih-rentang-waktu', true);
@@ -121,7 +127,8 @@ class Laporan_rekap_hasil extends Member_Controller {
                  
         //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
         //if you want to save it as .XLSX Excel 2007 format
-        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        // $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $objWriter = new Xlsx($excel);
         //force user to download the Excel file without writing it to server's HD
         $objWriter->save('php://output');
     }
