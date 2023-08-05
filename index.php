@@ -3,7 +3,8 @@
 /**
  * Timezone untuk Asia/jakarta
  */
-date_default_timezone_set('Asia/Jakarta');
+// date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set('Asia/Makassar');
 
 /**
  * CodeIgniter
@@ -318,4 +319,5 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+include_once './vendor/autoload.php';
 require_once BASEPATH.'core/CodeIgniter.php';

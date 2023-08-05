@@ -1,10 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Laporan_analisis_butir_soal extends Member_Controller {
 	private $kode_menu = 'laporan-analisis-butir-soal';
 	private $kelompok = 'laporan';
 	private $url = 'manager/laporan_analisis_butir_soal';
-	
+
     function __construct(){
 		parent:: __construct();
 		$this->load->model('cbt_user_model');
@@ -65,11 +68,14 @@ class Laporan_analisis_butir_soal extends Member_Controller {
         $this->form_validation->set_rules('pilih-tes', 'Nama Tes','required|strip_tags');
 		$this->form_validation->set_rules('nama-tes', 'Nama Tes','required|strip_tags');
 
-        $this->load->library('excel');
+        // $this->load->library('excel');
             
-        $inputFileName = './public/form/form-data-analisis-butir-soal.xlsx';
-        $excel = PHPExcel_IOFactory::load($inputFileName);
-        $worksheet = $excel->getSheet(0);
+        // $inputFileName = './public/form/form-data-analisis-butir-soal.xlsx';
+        // $excel = PHPExcel_IOFactory::load($inputFileName);
+        // $worksheet = $excel->getSheet(0);
+
+		$excel = new Spreadsheet();
+		$worksheet = $excel->getActiveSheet();
 		
 		$nama_grup = '';
         
@@ -119,10 +125,12 @@ class Laporan_analisis_butir_soal extends Member_Controller {
         header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
         header('Cache-Control: max-age=0'); //no cache
                  
-        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+        // save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
         //if you want to save it as .XLSX Excel 2007 format
-        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        // $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+		$objWriter = new Xlsx($excel);
         //force user to download the Excel file without writing it to server's HD
         $objWriter->save('php://output');
+		// $objWriter->save('hello world.xlsx');
     }
 }
