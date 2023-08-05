@@ -1,10 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Tes_daftar extends Member_Controller {
 	private $kode_menu = 'tes-daftar';
 	private $kelompok = 'tes';

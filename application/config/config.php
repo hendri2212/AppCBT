@@ -386,7 +386,7 @@ $config['encryption_key'] = 'sdjs djhas dhkajshdfsdfsKJKAhsa ahdsa d*&^876ad a7d
 |
 */
 $config['sess_driver'] = 'database';
-$config['sess_cookie_name'] = 'ci_session_zyacbt';
+$config['sess_cookie_name'] = 'ci_session_kitacbt';
 $config['sess_expiration'] = 0; //Sessi hilang selama browser tidak ditutup
 $config['sess_save_path'] = 'cbt_sessions';
 $config['sess_match_ip'] = FALSE;

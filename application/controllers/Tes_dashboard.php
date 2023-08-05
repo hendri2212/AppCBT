@@ -1,10 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Tes_dashboard extends Tes_Controller {
 	private $kelompok = 'ujian';
 	private $url = 'tes_dashboard';

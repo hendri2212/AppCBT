@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-		Pengaturan ZYACBT
-		<small>Melakukan pengaturan Identitas ZYACBT</small>
+		Pengaturan KITACBT
+		<small>Melakukan pengaturan Identitas KITACBT</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="<?php echo site_url(); ?>/"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li class="active">Pengaturan ZYACBT</li>
+		<li class="active">Pengaturan KITACBT</li>
 	</ol>
 </section>
 
@@ -17,7 +17,7 @@
 			<?php echo form_open($url.'/simpan','id="form-pengaturan"'); ?>
                 <div class="box">
                     <div class="box-header with-border">
-    					<div class="box-title">Daftar Pengaturan ZYACBT</div>
+    					<div class="box-title">Daftar Pengaturan KITACBT</div>
                     </div><!-- /.box-header -->
 
                     <div class="box-body form-horizontal">
@@ -27,7 +27,7 @@
                             <div class="col-sm-8">
 								<input type="text" class="form-control input-sm" id="zyacbt-nama" name="zyacbt-nama" >
                                 <p class="help-block">
-									Nama Pelaksana ZYACBT.<br />
+									Nama Pelaksana KITACBT.<br />
                                     Digunakan sebagai identitas pelaksanaan Tes.
 								</p>
 							</div>

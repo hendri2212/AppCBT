@@ -1,10 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Tool_backup extends Member_Controller {
 	private $kode_menu = 'tool-backup';
 	private $kelompok = 'tool';

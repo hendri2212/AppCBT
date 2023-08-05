@@ -1,10 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Tool_exportimport_soal extends Member_Controller {
 	private $kode_menu = 'tool-exportimport-soal';
 	private $kelompok = 'tool';
