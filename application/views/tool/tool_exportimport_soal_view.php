@@ -2,7 +2,7 @@
 <section class="content-header">
 	<h1>
 		Export / Import Data Soal
-		<small>Fasilitas untuk melakukan Export dan Import data Soal yang sudah dimasukkan ke ZYA CBT</small>
+		<small>Fasilitas untuk melakukan Export dan Import data Soal yang sudah dimasukkan ke KITA CBT</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="<?php echo site_url(); ?>/"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -16,8 +16,8 @@
         <div class="col-xs-12">
             <div class="callout callout-info">
                 <h4>Informasi</h4>
-                <p>Export / Import dapat digunakan untuk mendistribusikan Soal yang sudah di entry. Soal didistribusikan ke server lain yang sudah terinstall ZYA CBT.</p>
-                <p>Pastikan sebelum melakukan Import Data Soal tidak ada Topik pada ZYA CBT.</p>
+                <p>Export / Import dapat digunakan untuk mendistribusikan Soal yang sudah di entry. Soal didistribusikan ke server lain yang sudah terinstall KTIA CBT.</p>
+                <p>Pastikan sebelum melakukan Import Data Soal tidak ada Topik pada KITA CBT.</p>
             </div>
         </div>
     </div>

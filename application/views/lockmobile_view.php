@@ -11,7 +11,7 @@
 <section class="content">
     <div class="callout callout-info">
         <h4>Informasi</h4>
-        <p>Untuk mengakses Aplikasi Ujian Online ZYACBT menggunakan Android, gunakanlah Exam Browser</p>
+        <p>Untuk mengakses Aplikasi Ujian Online KITACBT menggunakan Android, gunakanlah Exam Browser</p>
 		<p>Download <a href="<?php echo base_url(); ?>public/apk/aplikasi-ujian-online-zyacbt.apk" >Exam Browser</a></p>
     </div>
 </section><!-- /.content -->

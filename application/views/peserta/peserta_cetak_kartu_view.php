@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>ZYACBT | Cetak Kartu</title>
+	<title>KITACBT | Cetak Kartu</title>
 	<!-- jQuery 2.1.4 -->
     <script src="<?php echo base_url(); ?>public/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 </head>
