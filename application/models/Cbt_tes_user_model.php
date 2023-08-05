@@ -114,6 +114,7 @@ class Cbt_tes_user_model extends CI_Model{
 
     function get_by_group(){
         $this->db->from($this->table)
+                 ->select('cbt_tes_user.tesuser_tes_id, cbt_tes.tes_id, cbt_tes.tes_nama')
                  ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
                  ->order_by('tes_id', 'DESC')
                  ->group_by('tesuser_tes_id');

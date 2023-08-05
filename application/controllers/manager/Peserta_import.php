@@ -71,7 +71,8 @@ class Peserta_import extends Member_Controller {
                 $kosong=0;
                 $kolom1 = $worksheet->getCellByColumnAndRow(1, $row)->getValue();//username
                 $kolom2 = $worksheet->getCellByColumnAndRow(2, $row)->getValue();//password
-                $kolom3 = ucwords(addslashes($worksheet->getCellByColumnAndRow(3, $row)->getValue()));//nama
+                // $kolom3 = ucwords(addslashes($worksheet->getCellByColumnAndRow(3, $row)->getValue()));//nama
+                $kolom3 = ucwords(addslashes($worksheet->getCellByColumnAndRow(3, $row)->getValue() ?? ''));//nama
                 $kolom4 = $worksheet->getCellByColumnAndRow(4, $row)->getValue();//email
                 $kolom5 = $worksheet->getCellByColumnAndRow(5, $row)->getValue();//group
 				$kolom6 = $worksheet->getCellByColumnAndRow(6, $row)->getValue();//keterangan
