@@ -4,6 +4,8 @@ class Welcome extends CI_Controller {
     
 	public function index(){
         $this->load->library('user_agent');
+		// $data['url'] = $this->url;
+		$data['timestamp'] = strtotime(date('Y-m-d H:i:s'));
 		
         if ($this->agent->is_browser()){
             if($this->agent->browser()=='Internet Explorer' ){
