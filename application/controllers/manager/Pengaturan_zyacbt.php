@@ -20,6 +20,11 @@ class Pengaturan_zyacbt extends Member_Controller {
     }
 
     function simpan(){
+		$myfile = fopen("./public/info.txt", "w") or die("Unable to open file!");
+		$txt = $this->input->post('zyacbt-nama', true);
+		fwrite($myfile, $txt);
+		fclose($myfile);
+
         $this->load->library('form_validation');
         
         $this->form_validation->set_rules('zyacbt-nama', 'Nama ZYACBT','required|strip_tags');

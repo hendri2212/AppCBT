@@ -2,6 +2,8 @@
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class Tes_hasil extends Member_Controller {
 	private $kode_menu = 'tes-hasil';
@@ -137,21 +139,57 @@ class Tes_hasil extends Member_Controller {
             // $inputFileName = './public/form/form-data-hasil-tes.xls';
             // $excel = PHPExcel_IOFactory::load($inputFileName);
             // $worksheet = $excel->getSheet(0);
+			$data = $query->row();
+			$excel		= new Spreadsheet();
+			$align		= new Alignment();
+			$drawing	= new Drawing();
+
+			$myfile = fopen("./public/info.txt", "r") or die("Unable to open file!");
+
+			$worksheet	= $excel->getActiveSheet();
+			$worksheet->setCellValueByColumnAndRow(1, 1, strtoupper(fgets($myfile)));
+			$worksheet->mergeCells('A1:E1');
+			$worksheet->getStyle('A1:E1')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->getStyle('A1:E1')->getFont()->setBold(true);
+			$worksheet->getStyle('A1:E1')->getFont()->setSize(12);
+
 			
-			$excel = new Spreadsheet();
-			$worksheet = $excel->getActiveSheet();
+			$worksheet->setCellValueByColumnAndRow(1, 2, strtoupper($data->tes_nama));
+			$worksheet->mergeCells('A2:E2');
+			$worksheet->getStyle('A2:E2')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+
+			$worksheet->setCellValueByColumnAndRow(1, 4, 'No');
+			$worksheet->setCellValueByColumnAndRow(2, 4, 'Tanggal');
+			$worksheet->setCellValueByColumnAndRow(3, 4, 'Kelas');
+			$worksheet->setCellValueByColumnAndRow(4, 4, 'Nama Siswa');
+			$worksheet->setCellValueByColumnAndRow(5, 4, 'Nilai');
+
+			fclose($myfile);
+
+			// // Add image logo to header letter
+			// $drawing->setName('Gibli Chromo');
+			// $drawing->setDescription('Logo');
+			// $drawing->setPath('./public/images/avatar.png');
+			// $drawing->setCoordinates('A1');
+			// $drawing->setHeight(36);
+			// // $drawing->setOffsetX(110);
+			// // $drawing->setRotation(25);
+			// // $drawing->getShadow()->setVisible(true);
+			// // $drawing->getShadow()->setDirection(45);
+			// $drawing->setWorksheet($excel->getActiveSheet());
+
 
             if($query->num_rows()>0){
                 $query = $query->result();
-                $row = 2;
+                $row = 5;
                 foreach ($query as $temp) {
-                    $worksheet->setCellValueByColumnAndRow(0, $row, ($row-1));
-                    $worksheet->setCellValueByColumnAndRow(1, $row, $temp->tesuser_creation_time);
-                    $worksheet->setCellValueByColumnAndRow(2, $row, $temp->tes_nama);
-                    $worksheet->setCellValueByColumnAndRow(3, $row, $temp->user_name);
+                    $worksheet->setCellValueByColumnAndRow(1, $row, ($row-4));
+                    $worksheet->setCellValueByColumnAndRow(2, $row, $temp->tesuser_creation_time);
+                    $worksheet->setCellValueByColumnAndRow(3, $row, $temp->grup_nama);
+                    // $worksheet->setCellValueByColumnAndRow(3, $row, $temp->tes_nama);
+                    // $worksheet->setCellValueByColumnAndRow(4, $row, $temp->user_name);
                     $worksheet->setCellValueByColumnAndRow(4, $row, stripslashes($temp->user_firstname));
-                    $worksheet->setCellValueByColumnAndRow(5, $row, $temp->grup_nama);
-                    $worksheet->setCellValueByColumnAndRow(6, $row, $temp->nilai);
+                    $worksheet->setCellValueByColumnAndRow(5, $row, $temp->nilai);
 
                     $row++;
                 }
