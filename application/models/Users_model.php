@@ -125,9 +125,10 @@ class Users_model extends CI_Model{
      * Mendapatkan menu dashboard secara dynamic 
      */ 
     function get_menu($kode_menu, $level){
+        $data = 'tes-laporan';
         // $sql = 'SELECT user_menu.* FROM `user_akses` INNER JOIN `user_level` ON (`user_akses`.`level` = `user_level`.`level`) 
         $sql = 'SELECT user_menu.parent FROM `user_akses` INNER JOIN `user_level` ON (`user_akses`.`level` = `user_level`.`level`) 
-            INNER JOIN `user_menu` ON (`user_akses`.`kode_menu` = `user_menu`.`kode_menu`) WHERE user_akses.`level`="'.$level.'"
+            INNER JOIN `user_menu` ON (`user_akses`.`kode_menu` = `user_menu`.`kode_menu`) WHERE user_menu.parent!="'.$data.'" AND user_akses.`level`="'.$level.'"
             GROUP BY `user_menu`.`parent` ORDER BY user_menu.parent ASC';
         $result=$this->db->query($sql);
         $parent_kode_menu = $this->get_parent_menu($kode_menu);
