@@ -35,7 +35,8 @@ class Cbt_tes_soal_model extends CI_Model{
 
     function count_by_tesuser_dijawab($tesuser_id){
         $this->db->select('COUNT(*) AS hasil')
-                 ->where('tessoal_tesuser_id="'.$tesuser_id.'" AND tessoal_change_time!=""')
+                //  ->where('tessoal_tesuser_id="'.$tesuser_id.'" AND tessoal_change_time!=""')
+                 ->where('tessoal_tesuser_id="'.$tesuser_id.'" AND tessoal_change_time IS NOT NULL')
                  ->from($this->table);
         return $this->db->get();
     }

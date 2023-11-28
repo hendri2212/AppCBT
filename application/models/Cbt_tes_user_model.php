@@ -154,7 +154,14 @@ class Cbt_tes_user_model extends CI_Model{
 			$sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
 		}
 
-        $this->db->select('cbt_tes_user.*, cbt_tes.*, cbt_user.*, cbt_user_grup.grup_nama, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai ')
+        $this->db->select('cbt_tes_user.*, cbt_tes.*, cbt_user.*, cbt_user_grup.grup_nama, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai,
+                CASE
+                    WHEN SUM(`cbt_tes_soal`.`tessoal_nilai`) < 60 THEN "Kurang"
+                    WHEN SUM(`cbt_tes_soal`.`tessoal_nilai`) < 70 THEN "Cukup"
+                    WHEN SUM(`cbt_tes_soal`.`tessoal_nilai`) < 80 THEN "Baik"
+                    ELSE "Sangat Baik"
+                END AS kriteria
+                ')
                  ->where('( '.$sql.' )')
                  ->from($this->table)
                  ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id', 'right')

@@ -4,6 +4,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class Tes_hasil extends Member_Controller {
 	private $kode_menu = 'tes-hasil';
@@ -143,26 +144,51 @@ class Tes_hasil extends Member_Controller {
 			$excel		= new Spreadsheet();
 			$align		= new Alignment();
 			$drawing	= new Drawing();
+			$border		= new Border();
+
+			$styleArray = [
+				'borders' => [
+					// 'outline' => [
+					'allBorders' => [
+						// 'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+						'borderStyle' => $border::BORDER_THIN,
+						'color' => ['argb' => '0000'],
+					],
+				],
+			];
+			
+			// $worksheet->getStyle('B2:G8')->applyFromArray($styleArray);
 
 			$myfile = fopen("./public/info.txt", "r") or die("Unable to open file!");
 
 			$worksheet	= $excel->getActiveSheet();
 			$worksheet->setCellValueByColumnAndRow(1, 1, strtoupper(fgets($myfile)));
-			$worksheet->mergeCells('A1:E1');
-			$worksheet->getStyle('A1:E1')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
-			$worksheet->getStyle('A1:E1')->getFont()->setBold(true);
-			$worksheet->getStyle('A1:E1')->getFont()->setSize(12);
+			$worksheet->mergeCells('A1:F1');
+			$worksheet->getStyle('A1:F1')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->getStyle('A1:F1')->getFont()->setBold(true);
+			$worksheet->getStyle('A1:F1')->getFont()->setSize(12);
+			$worksheet->getStyle('A4:F39')->applyFromArray($styleArray);
+			// $worksheet->getDefaultColumnDimension()->setWidth(32);
+			$worksheet->getColumnDimension('A')->setWidth(5);
+			$worksheet->getColumnDimension('B')->setWidth(20);
+			$worksheet->getColumnDimension('D')->setWidth(20);
+			$worksheet->getColumnDimension('F')->setWidth(25);
 
 			
 			$worksheet->setCellValueByColumnAndRow(1, 2, strtoupper($data->tes_nama));
-			$worksheet->mergeCells('A2:E2');
-			$worksheet->getStyle('A2:E2')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->mergeCells('A2:F2');
+			$worksheet->getStyle('A2:F2')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->getStyle('4')->getFont()->setBold(true);
+			$worksheet->getStyle('A')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->getStyle('C')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+			$worksheet->getStyle('E')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
 
 			$worksheet->setCellValueByColumnAndRow(1, 4, 'No');
 			$worksheet->setCellValueByColumnAndRow(2, 4, 'Tanggal');
 			$worksheet->setCellValueByColumnAndRow(3, 4, 'Kelas');
 			$worksheet->setCellValueByColumnAndRow(4, 4, 'Nama Siswa');
 			$worksheet->setCellValueByColumnAndRow(5, 4, 'Nilai');
+			$worksheet->setCellValueByColumnAndRow(6, 4, 'Kriteria Penilaian');
 
 			fclose($myfile);
 
@@ -190,6 +216,7 @@ class Tes_hasil extends Member_Controller {
                     // $worksheet->setCellValueByColumnAndRow(4, $row, $temp->user_name);
                     $worksheet->setCellValueByColumnAndRow(4, $row, stripslashes($temp->user_firstname));
                     $worksheet->setCellValueByColumnAndRow(5, $row, $temp->nilai);
+                    $worksheet->setCellValueByColumnAndRow(6, $row, $temp->kriteria);
 
                     $row++;
                 }
