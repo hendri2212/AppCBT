@@ -199,7 +199,8 @@ class Cbt_tes_user_model extends CI_Model{
 	*
 	*/
 	function get_datatable($start, $rows, $tes_id, $grup_id, $urutkan, $tanggal, $keterangan, $search){
-        $sql = 'tesuser_creation_time>="'.$tanggal[0].'" AND tesuser_creation_time<="'.$tanggal[1].'" AND user_firstname LIKE "%'.$search.'%"';
+        // $sql = 'tesuser_creation_time>="'.$tanggal[0].'" AND tesuser_creation_time<="'.$tanggal[1].'" AND user_firstname LIKE "%'.$search.'%"';
+        $sql = 'user_firstname LIKE "%'.$search.'%"';
 		
         if($tes_id!='semua'){
             $sql = $sql.' AND tesuser_tes_id="'.$tes_id.'"';
