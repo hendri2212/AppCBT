@@ -55,6 +55,7 @@ class Modul_topik extends Member_Controller {
             $data['topik_nama'] = $this->input->post('tambah-topik', true);
             $data['topik_detail'] = $this->input->post('tambah-deskripsi', true);
             $data['topik_aktif'] = 1;
+			$data['user_id'] = $this->session->userdata('id');
 
             //if($this->cbt_topik_model->count_by_kolom('topik_nama', $data['topik_nama'])->row()->hasil>0){
             if($this->cbt_topik_model->count_by_topik_modul($data['topik_nama'], $data['topik_modul_id'])->row()->hasil>0){

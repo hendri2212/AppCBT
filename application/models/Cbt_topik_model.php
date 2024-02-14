@@ -1,13 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Cbt_topik_model extends CI_Model{
 	public $table = 'cbt_topik';
-	
+    
 	function __construct(){
         parent::__construct();
     }
@@ -47,7 +41,8 @@ class Cbt_topik_model extends CI_Model{
     }
 	
 	function get_by_kolom($kolom, $isi){
-        $this->db->where($kolom, $isi)
+        // $this->db->where($kolom, $isi)
+        $this->db->where(['user_id' => $this->session->userdata('id'), $kolom => $isi])
                  ->from($this->table);
         return $this->db->get();
     }
@@ -74,7 +69,8 @@ class Cbt_topik_model extends CI_Model{
     }
 	
 	function get_datatable($start, $rows, $kolom, $isi, $modul){
-		$this->db->where('('.$kolom.' LIKE "%'.$isi.'%" AND topik_modul_id='.$modul.')')
+		// $this->db->where('('.$kolom.' LIKE "%'.$isi.'%" AND topik_modul_id='.$modul.')')
+		$this->db->where(['topik_modul_id' => $modul, 'user_id' => $this->session->userdata('id')])
                  ->from($this->table)
 				 ->order_by($kolom, 'ASC')
                  ->limit($rows, $start);

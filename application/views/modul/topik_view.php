@@ -332,25 +332,25 @@
         });
 
         $('#table-topik').DataTable({
-                  "paging": true,
-                  "iDisplayLength":10,
-                  "bProcessing": false,
-                  "bServerSide": true, 
-                  "searching": true,
-                  "aoColumns": [
-    					{"bSearchable": false, "bSortable": false, "sWidth":"20px"},
-    					{"bSearchable": false, "bSortable": false},
-                        {"bSearchable": false, "bSortable": false},
-                        {"bSearchable": false, "bSortable": false},
-    					{"bSearchable": false, "bSortable": false},
-                        {"bSearchable": false, "bSortable": false, "sWidth":"30px"},
-                        {"bSearchable": false, "bSortable": false, "sWidth":"30px"}],
-                  "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable/",
-                  "autoWidth": false,
-                  "responsive": true,
-                  "fnServerParams": function ( aoData ) {
-                    aoData.push( { "name": "modul", "value": $('#modul').val()} );
-                  }
-         });          
+            "paging": true,
+            "iDisplayLength":10,
+            "bProcessing": false,
+            "bServerSide": true, 
+            "searching": true,
+            "aoColumns": [
+                {"bSearchable": false, "bSortable": false, "sWidth":"20px"},
+                {"bSearchable": false, "bSortable": false},
+                {"bSearchable": false, "bSortable": false},
+                {"bSearchable": false, "bSortable": false},
+                {"bSearchable": false, "bSortable": false},
+                {"bSearchable": false, "bSortable": false, "sWidth":"30px"},
+                {"bSearchable": false, "bSortable": false, "sWidth":"30px"}],
+            "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable/",
+            "autoWidth": false,
+            "responsive": true,
+            "fnServerParams": function ( aoData ) {
+                aoData.push( { "name": "modul", "value": $('#modul').val()} );
+            }
+        });        
     });
 </script>

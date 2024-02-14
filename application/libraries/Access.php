@@ -32,6 +32,7 @@ class Access{
 		if($result){
 			$password = sha1($password);
 			if($password === $result->password){
+				$this->CI->session->set_userdata('id',$result->id);
 				$this->CI->session->set_userdata('cbt_user_id',$result->username);
                 $this->CI->session->set_userdata('cbt_nama',$result->nama);
                 $this->CI->session->set_userdata('cbt_level',$result->level);
