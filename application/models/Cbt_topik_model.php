@@ -51,7 +51,8 @@ class Cbt_topik_model extends CI_Model{
         $this->db->select('cbt_topik.*, cbt_modul.*')
                  ->join('cbt_modul', 'cbt_topik.topik_modul_id = cbt_modul.modul_id')
                  ->from($this->table)
-                 ->where($kolom, $isi);
+                //  ->where($kolom, $isi);
+                 ->where(['user_id' => $this->session->userdata('id'), $kolom => $isi]);
         return $this->db->get();
     }
 
@@ -74,6 +75,9 @@ class Cbt_topik_model extends CI_Model{
                  ->from($this->table)
 				 ->order_by($kolom, 'ASC')
                  ->limit($rows, $start);
+                // if($kolom == 'topik_nama'){
+                //     ->where(['topik_modul_id' => $modul, 'user_id' => $this->session->userdata('id')])
+                // }
         return $this->db->get();
 	}
     
