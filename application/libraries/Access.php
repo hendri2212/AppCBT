@@ -38,6 +38,7 @@ class Access{
                 $this->CI->session->set_userdata('cbt_level',$result->level);
                 $this->CI->session->set_userdata('cbt_opsi1',$result->opsi1);
                 $this->CI->session->set_userdata('cbt_opsi2',$result->opsi2);
+                $this->CI->session->set_userdata('school_id',$result->school_id);
 				return 1;
 			}else{
 				return 2;
