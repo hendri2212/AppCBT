@@ -44,7 +44,7 @@
                             <th class="all">Tes</th>
                             <th>Waktu Mulai Tes</th>
                             <th>Waktu Selesai Tes</th>
-                            <th>Status</th>
+                            <th>Nilai</th>
                             <th class="all">Action</th>
                         </tr>
                     </thead>

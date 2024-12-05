@@ -543,21 +543,21 @@
             });
 
             $('#table-image').DataTable({
-                  "bPaginate": false,
-                  "bProcessing": false,
-                  "bServerSide": true, 
-                  "searching": false,
-                  "aoColumns": [
-                        {"bSearchable": false, "bSortable": false, "sWidth":"20px"},
-                        {"bSearchable": false, "bSortable": false},
-                        {"bSearchable": false, "bSortable": false, "sWidth":"100px"},
-                        {"bSearchable": false, "bSortable": false, "sWidth":"90px"},
-                        {"bSearchable": false, "bSortable": false, "sWidth":"50px"}],
-                  "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable_image/",
-                  "autoWidth": false,
-                  "fnServerParams": function ( aoData ) {
-                    aoData.push( { "name": "topik", "value": $('#topik').val()} );
-                  }
+                "bPaginate": false,
+                "bProcessing": false,
+                "bServerSide": true, 
+                "searching": false,
+                "aoColumns": [
+                    {"bSearchable": false, "bSortable": false, "sWidth":"20px"},
+                    {"bSearchable": false, "bSortable": false},
+                    {"bSearchable": false, "bSortable": false, "sWidth":"100px"},
+                    {"bSearchable": false, "bSortable": false, "sWidth":"90px"},
+                    {"bSearchable": false, "bSortable": false, "sWidth":"50px"}],
+                "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable_image/",
+                "autoWidth": false,
+                "fnServerParams": function ( aoData ) {
+                aoData.push( { "name": "topik", "value": $('#topik').val()} );
+                }
             });
 
             CKEDITOR.replace('tambah_soal');
