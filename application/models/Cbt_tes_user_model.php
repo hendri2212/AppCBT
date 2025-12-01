@@ -226,18 +226,19 @@ class Cbt_tes_user_model extends CI_Model{
 			$sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
 		}
 
-		$this->db->select('cbt_tes_user.*,cbt_user_grup.grup_nama, cbt_tes.*, cbt_user.*, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai ')
+        $this->db->select('cbt_tes_user.*,cbt_user_grup.grup_nama, cbt_tes.*, cbt_user.*, SUM(`cbt_tes_soal`.`tessoal_nilai`) AS nilai ')
                  ->where('( '.$sql.' )')
                  ->from($this->table)
                  ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id')
                  ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
                  ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
                  ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->where(['cbt_tes.user_id' => $this->session->userdata('id')])
                  ->group_by('cbt_tes_user.tesuser_id')
-				 ->order_by($order)
+                 ->order_by($order)
                  ->limit($rows, $start);
         return $this->db->get();
-	}
+    }
     
     function get_datatable_count($tes_id, $grup_id, $urutkan, $tanggal, $keterangan, $search){
         $sql = 'tesuser_creation_time>="'.$tanggal[0].'" AND tesuser_creation_time<="'.$tanggal[1].'" AND user_firstname LIKE "%'.$search.'%"';
@@ -253,12 +254,14 @@ class Cbt_tes_user_model extends CI_Model{
 			$sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
 		}
 
-		$this->db->select('COUNT(*) AS hasil')
+        $this->db->select('COUNT(*) AS hasil')
                  ->where('( '.$sql.' )')
                  ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id', 'right')
+                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id', 'left')
+                 ->where(['cbt_tes.user_id' => $this->session->userdata('id')])
                  ->from($this->table);
         return $this->db->get();
-	}
+    }
 
     /**
      * Question Type

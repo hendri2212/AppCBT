@@ -134,9 +134,9 @@ class Cbt_user_model extends CI_Model{
 	* datatable untuk hasil tes yang belum mengerjakan
 	*
 	*/
-	function get_datatable_hasiltes($start, $rows, $tes_id, $grup_id, $urutkan, $tanggal, $keterangan, $search){
+    function get_datatable_hasiltes($start, $rows, $tes_id, $grup_id, $urutkan, $tanggal, $keterangan, $search){
         $sql = 'tes_begin_time>="'.$tanggal[0].'" AND tes_end_time<="'.$tanggal[1].'" AND tesuser_id IS NULL AND user_firstname LIKE "%'.$search.'%"';
-		
+        
         if($tes_id!='semua'){
             $sql = $sql.' AND tes_id="'.$tes_id.'"';
         }
@@ -151,44 +151,46 @@ class Cbt_user_model extends CI_Model{
         }else{
             $order = 'tes_id ASC';
         }
-		
-		if(!empty($keterangan)){
-			$sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
-		}
+        
+        if(!empty($keterangan)){
+            $sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
+        }
 
-		$this->db->select('cbt_tes.*,cbt_user_grup.grup_nama, cbt_tes.*, cbt_user.*, "0" AS nilai')
+        $this->db->select('cbt_tes.*,cbt_user_grup.grup_nama, cbt_tes.*, cbt_user.*, "0" AS nilai')
                  ->where('( '.$sql.' )')
                  ->from($this->table)
                  ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
-				 ->join('cbt_tesgrup', 'cbt_tesgrup.tstgrp_grup_id = cbt_user_grup.grup_id')
+                 ->join('cbt_tesgrup', 'cbt_tesgrup.tstgrp_grup_id = cbt_user_grup.grup_id')
                  ->join('cbt_tes', 'cbt_tesgrup.tstgrp_tes_id = cbt_tes.tes_id')
-				 ->join('cbt_tes_user', '(cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id) AND (cbt_tes_user.tesuser_user_id = cbt_user.user_id)', 'left')
-				 ->order_by($order)
+                 ->join('cbt_tes_user', '(cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id) AND (cbt_tes_user.tesuser_user_id = cbt_user.user_id)', 'left')
+                 ->where(['cbt_tes.user_id' => $this->session->userdata('id')])
+                 ->order_by($order)
                  ->limit($rows, $start);
         return $this->db->get();
-	}
+    }
     
     function get_datatable_hasiltes_count($tes_id, $grup_id, $urutkan, $tanggal, $keterangan, $search){
         $sql = '(tes_begin_time>="'.$tanggal[0].'" AND tes_end_time<="'.$tanggal[1].'") AND tesuser_id IS NULL AND user_firstname LIKE "%'.$search.'%"';
-		
+        
         if($tes_id!='semua'){
             $sql = $sql.' AND tes_id="'.$tes_id.'"';
         }
         if($grup_id!='semua'){
             $sql = $sql.' AND user_grup_id="'.$grup_id.'"';
         }
-		
-		if(!empty($keterangan)){
-			$sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
-		}
+        
+        if(!empty($keterangan)){
+            $sql = $sql.' AND user_detail LIKE "%'.$keterangan.'%"';
+        }
 
-		$this->db->select('COUNT(*) AS hasil')
+        $this->db->select('COUNT(*) AS hasil')
                  ->where('( '.$sql.' )')
                  ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
-				 ->join('cbt_tesgrup', 'cbt_tesgrup.tstgrp_grup_id = cbt_user_grup.grup_id')
+                 ->join('cbt_tesgrup', 'cbt_tesgrup.tstgrp_grup_id = cbt_user_grup.grup_id')
                  ->join('cbt_tes', 'cbt_tesgrup.tstgrp_tes_id = cbt_tes.tes_id')
-				 ->join('cbt_tes_user', '(cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id) AND (cbt_tes_user.tesuser_user_id = cbt_user.user_id)', 'left')
+                 ->join('cbt_tes_user', '(cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id) AND (cbt_tes_user.tesuser_user_id = cbt_user.user_id)', 'left')
+                 ->where(['cbt_tes.user_id' => $this->session->userdata('id')])
                  ->from($this->table);
         return $this->db->get();
-	}
+    }
 }

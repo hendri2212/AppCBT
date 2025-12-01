@@ -48,7 +48,6 @@ class Modul_soal extends Member_Controller {
         if($query_user->num_rows()>0){
         	$query_user = $query_user->row();
 
-        	// Mengecek apakah user dibatasi hanya mengentry beberapa topik
         	if(!empty($query_user->opsi1)){
         		$user_topik = explode(',', $query_user->opsi1);
 	        	foreach ($user_topik as $topik_id) {
@@ -69,7 +68,6 @@ class Modul_soal extends Member_Controller {
 	        		}
 	        	}
         	}else{
-        		// Jika user tidak dibatasi mengedit soal sesuai topik
         		$query_modul = $this->cbt_modul_model->get_modul();
 		        if($query_modul->num_rows()>0){
 		        	$select = '';

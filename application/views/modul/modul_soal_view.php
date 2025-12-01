@@ -1,4 +1,3 @@
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 		Mengelola Soal
@@ -10,14 +9,13 @@
 	</ol>
 </section>
 
-<!-- Main content -->
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">Pilih Topik</div>
-                </div><!-- /.box-header -->
+                </div>
 
                 <div class="box-body">
                     <div class="col-xs-2"></div>
@@ -45,7 +43,7 @@
                     <?php echo form_open_multipart($url.'/tambah','id="form-tambah" class="form-horizontal"'); ?>
                         <div class="box-header with-border">
                             <div class="box-title">Mengelola Soal <span id="judul-tambah-soal"></span></div>
-                        </div><!-- /.box-header -->
+                        </div>
 
                         <div class="box-body">
                             <div id="form-pesan"></div>
