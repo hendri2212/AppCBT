@@ -112,10 +112,11 @@ class Cbt_tes_user_model extends CI_Model{
         return $this->db->get();
     }
 
-    function get_by_group(){
+	function get_by_group(){
         $this->db->from($this->table)
                  ->select('cbt_tes_user.tesuser_tes_id, cbt_tes.tes_id, cbt_tes.tes_nama')
                  ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+                 ->where(['cbt_tes.user_id' => $this->session->userdata('id')])
                  ->order_by('tes_id', 'DESC')
                  ->group_by('tesuser_tes_id');
         return $this->db->get();

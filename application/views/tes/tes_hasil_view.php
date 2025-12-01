@@ -1,4 +1,3 @@
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 		Hasil Tes
@@ -10,14 +9,13 @@
 	</ol>
 </section>
 
-<!-- Main content -->
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">Filter Hasil</div>
-                </div><!-- /.box-header -->
+                </div>
                 <div class="box-body form-horizontal">
                     <div class="col-sm-6">
 						<div class="form-group">
@@ -97,8 +95,7 @@
                             <a  style="cursor: pointer;" onclick="export_excel()">Export ke Excel</a>
                         </div>
                     </div>
-				</div><!-- /.box-header -->
-
+				</div>
                 <div class="box-body">
                     <input type="hidden" name="edit-pilihan" id="edit-pilihan">
 					<table id="table-hasil" class="table table-bordered table-hover">
@@ -117,15 +114,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
 					</table>                        
@@ -171,10 +168,7 @@
 
         </form>
     </div>
-</section><!-- /.content -->
-
-
-
+</section>
 <script lang="javascript">
     function refresh_table(){
         $('#table-hasil').dataTable().fnReloadAjax();
