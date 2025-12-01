@@ -19,7 +19,7 @@ class Tes_tambah extends Member_Controller {
         parent::cek_akses($this->kode_menu);
 	}
 	
-    public function index($tes_id=null){
+    public function index($tes_id=null) {
         $data['kode_menu'] = $this->kode_menu;
         $data['url'] = $this->url;
 
@@ -125,6 +125,7 @@ class Tes_tambah extends Member_Controller {
             $data['tes_score_right'] = $this->input->post('tambah-poin', true);
             $data['tes_score_wrong'] = $this->input->post('tambah-poin-salah', true);
             $data['tes_score_unanswered'] = $this->input->post('tambah-poin-kosong', true);
+            $data['user_id'] = $this->session->userdata('id');
 
             $tunjukkan_hasil = $this->input->post('tambah-tunjukkan-hasil', true);
             if(!empty($tunjukkan_hasil)){

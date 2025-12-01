@@ -79,6 +79,12 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '',
 	'database' => 'zyacbt',
+	
+	// 'hostname' => '103.30.145.195',
+	// 'username' => 'admin_hendri2212',
+	// 'password' => 'admin_hendri2212',
+	// 'database' => 'admin_zyacbt',
+
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

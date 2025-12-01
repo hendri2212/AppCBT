@@ -1,4 +1,3 @@
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 		Tes
@@ -10,108 +9,107 @@
 	</ol>
 </section>
 
-<!-- Main content -->
 <section class="content">
 	<div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <?php echo form_open($url.'/tambah_tes','id="form-tambah-tes"  class="form-horizontal"'); ?>
-                <div class="box-header with-border">
-                    <div class="box-title">Mengelola Tes</div>
-                </div><!-- /.box-header -->
+                    <div class="box-header with-border">
+                        <div class="box-title">Mengelola Tes</div>
+                    </div>
 
-                <div class="box-body">
-                    <div class="col-xs-6">
-                        <div id="form-pesan-tes"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Nama</label>
-                            <div class="col-sm-9">
-                                <input type="hidden" name="tambah-id" id="tambah-id" />
-                                <input type="hidden" name="tambah-nama-lama" id="tambah-nama-lama" />
-                                <input type="text" name="tambah-nama" id="tambah-nama" class="form-control input-sm" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Deskripsi</label>
-                            <div class="col-sm-9">
-                                <textarea name="tambah-deskripsi" id="tambah-deskripsi" class="form-control input-sm" ></textarea>
-                            </div>
-                        </div>
-						<div class="form-group">
-                            <label class="col-sm-3 control-label">Rentang Waktu</label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-                                    <input type="text" name="tambah-rentang-waktu" id="tambah-rentang-waktu" class="form-control input-sm" value="<?php if(!empty($rentang_waktu)){ echo $rentang_waktu; } ?>" readonly />
+                    <div class="box-body">
+                        <div class="col-xs-6">
+                            <div id="form-pesan-tes"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Nama</label>
+                                <div class="col-sm-9">
+                                    <input type="hidden" name="tambah-id" id="tambah-id" />
+                                    <input type="hidden" name="tambah-nama-lama" id="tambah-nama-lama" />
+                                    <input type="text" name="tambah-nama" id="tambah-nama" class="form-control input-sm" />
                                 </div>
-                                <p class="help-block">Rentang waktu tes dilaksanakan</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Deskripsi</label>
+                                <div class="col-sm-9">
+                                    <textarea name="tambah-deskripsi" id="tambah-deskripsi" class="form-control input-sm" ></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Rentang Waktu</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-clock-o"></i>
+                                        </div>
+                                        <input type="text" name="tambah-rentang-waktu" id="tambah-rentang-waktu" class="form-control input-sm" value="<?php if(!empty($rentang_waktu)){ echo $rentang_waktu; } ?>" readonly />
+                                    </div>
+                                    <p class="help-block">Rentang waktu tes dilaksanakan</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Group</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control input-sm" id="tambah-group" name="tambah-group[]" size="22" multiple>
+                                        <?php if(!empty($select_group)){ echo $select_group; } ?>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Group</label>
-                            <div class="col-sm-9">
-                                <select class="form-control input-sm" id="tambah-group" name="tambah-group[]" size="22" multiple>
-                                    <?php if(!empty($select_group)){ echo $select_group; } ?>
-                                </select>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Waktu Tes</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="tambah-waktu" id="tambah-waktu" class="form-control input-sm" value="30" />
+                                    <p class="help-block">Waktu tes dalam satuan menit</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Poin Dasar</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="tambah-poin" id="tambah-poin" class="form-control input-sm" value="1.00" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jawaban Salah</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="tambah-poin-salah" id="tambah-poin-salah" class="form-control input-sm" value="0.00" />
+                                    <p class="help-block">Poin untuk jawaban salah</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Jawaban Kosong</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="tambah-poin-kosong" id="tambah-poin-kosong" class="form-control input-sm" value="0.00" />
+                                    <p class="help-block">Poin untuk jawaban kosong</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tunjukkan Hasil</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" name="tambah-tunjukkan-hasil" id="tambah-tunjukkan-hasil" value="1" checked>
+                                    <p class="help-block">Menunjukkan hasil ke user saat tes sudah selesai</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Detail Hasil</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" name="tambah-detail-hasil" id="tambah-detail-hasil" value="1" >
+                                    <p class="help-block">Menunjukkan detail jawaban ke user saat tes sudah selesai</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Token</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" name="tambah-token" id="tambah-token" value="1" >
+                                    <p class="help-block">Saat awal tes, user memasukkan Token dari operator</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Waktu Tes</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="tambah-waktu" id="tambah-waktu" class="form-control input-sm" value="30" />
-                                <p class="help-block">Waktu tes dalam satuan menit</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Poin Dasar</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="tambah-poin" id="tambah-poin" class="form-control input-sm" value="1.00" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Jawaban Salah</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="tambah-poin-salah" id="tambah-poin-salah" class="form-control input-sm" value="0.00" />
-                                <p class="help-block">Poin untuk jawaban salah</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Jawaban Kosong</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="tambah-poin-kosong" id="tambah-poin-kosong" class="form-control input-sm" value="0.00" />
-                                <p class="help-block">Poin untuk jawaban kosong</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Tunjukkan Hasil</label>
-                            <div class="col-sm-9">
-                                <input type="checkbox" name="tambah-tunjukkan-hasil" id="tambah-tunjukkan-hasil" value="1" checked>
-                                <p class="help-block">Menunjukkan hasil ke user saat tes sudah selesai</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Detail Hasil</label>
-                            <div class="col-sm-9">
-                                <input type="checkbox" name="tambah-detail-hasil" id="tambah-detail-hasil" value="1" >
-                                <p class="help-block">Menunjukkan detail jawaban ke user saat tes sudah selesai</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Token</label>
-                            <div class="col-sm-9">
-                                <input type="checkbox" name="tambah-token" id="tambah-token" value="1" >
-                                <p class="help-block">Saat awal tes, user memasukkan Token dari operator</p>
-                            </div>
-                        </div>
+                    <div class="box-footer">
+                        <button type="submit" id="btn-tambah-simpan" class="btn btn-primary pull-right">Simpan</button>
                     </div>
-                </div>
-                <div class="box-footer">
-                    <button type="submit" id="btn-tambah-simpan" class="btn btn-primary pull-right">Simpan</button>
-                </div>
                 </form>
             </div>
         </div>
@@ -122,7 +120,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="box-title">Tambah Soal <div id="judul-tambah-soal"></div></div>
-                </div><!-- /.box-header -->
+                </div>
                 <div class="box-body">
                     <div class="col-xs-6">
                         <?php echo form_open($url.'/tambah_soal','id="form-tambah-soal"  class="form-horizontal"'); ?>
@@ -229,7 +227,7 @@
             </div>
         </div>
     </div>
-</section><!-- /.content -->
+</section>
 
 
 

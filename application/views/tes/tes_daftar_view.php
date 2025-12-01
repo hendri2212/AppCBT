@@ -1,4 +1,3 @@
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 		Daftar Tes
@@ -10,68 +9,67 @@
 	</ol>
 </section>
 
-<!-- Main content -->
 <section class="content">
 	<div class="row">
         <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header with-border">
-						<div class="box-title">Daftar Tes</div>
-    					<div class="box-tools pull-right">
-							<div class="dropdown pull-right">
-								<a href="<?php echo site_url(); ?>/manager/tes_tambah">Tambah Tes</a>
-    						</div>
-    					</div>
-                    </div><!-- /.box-header -->
-
-                    <div class="box-body">
-                        <?php echo form_open($url.'/hapus_daftar_tes','id="form-hapus-pilih"'); ?>
-                        <input type="hidden" name="check" id="check" value="0">
-                        <input type="hidden" name="centang" id="centang" value="0">
-                        <div id="form-pesan"><?php if(!empty($pesan_hapus)){ echo $pesan_hapus; } ?></div>
-                        <table id="table-tes" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th class="all">Nama Tes</th>
-                                    <th>Max Score</th>
-                                    <th class="all">Waktu Mulai</th>
-                                    <th>Waktu Selesai</th>
-                                    <th class="none">Waktu Tes</th>
-                                    <th class="none">Poin Dasar</th>
-                                    <th class="none">Tunjukkan Hasil</th>
-                                    <th class="none">Token</th>
-									<th class="none">Soal</th>
-									<th class="none">Grup Peserta</th>
-                                    <th class="all"></th>
-                                    <th class="all"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-									<td> </td>
-									<td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-									<td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                            </tbody>
-                        </table>   
-                        </form>                     
-                    </div>
-                    <div class="box-footer">
-                        <button type="button" id="btn-edit-hapus" class="btn btn-primary" title="Hapus Siswa yang dipilih">Hapus</button>
-                        <button type="button" id="btn-edit-pilih" class="btn btn-default pull-right">Pilih Semua</button>
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">Daftar Tes</div>
+                    <div class="box-tools pull-right">
+                        <div class="dropdown pull-right">
+                            <a href="<?php echo site_url(); ?>/manager/tes_tambah">Tambah Tes</a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="box-body">
+                    <?php echo form_open($url.'/hapus_daftar_tes','id="form-hapus-pilih"'); ?>
+                    <input type="hidden" name="check" id="check" value="0">
+                    <input type="hidden" name="centang" id="centang" value="0">
+                    <div id="form-pesan"><?php if(!empty($pesan_hapus)){ echo $pesan_hapus; } ?></div>
+                    <table id="table-tes" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th class="all">Nama Tes</th>
+                                <th>Max Score</th>
+                                <th class="all">Waktu Mulai</th>
+                                <th>Waktu Selesai</th>
+                                <th class="none">Waktu Tes</th>
+                                <th class="none">Poin Dasar</th>
+                                <th class="none">Tunjukkan Hasil</th>
+                                <th class="none">Token</th>
+                                <th class="none">Soal</th>
+                                <th class="none">Grup Peserta</th>
+                                <th class="all"></th>
+                                <th class="all"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>   
+                    </form>                     
+                </div>
+                <div class="box-footer">
+                    <button type="button" id="btn-edit-hapus" class="btn btn-primary" title="Hapus Siswa yang dipilih">Hapus</button>
+                    <button type="button" id="btn-edit-pilih" class="btn btn-default pull-right">Pilih Semua</button>
+                </div>
+            </div>
         </div>
     </div>
 
