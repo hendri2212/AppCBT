@@ -1,10 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* ZYA CBT
-* Achmad Lutfi
-* achmdlutfi@gmail.com
-* achmadlutfi.wordpress.com
-*/
 class Cbt_user_grup_model extends CI_Model{
 	public $table = 'cbt_user_grup';
 	
@@ -47,23 +41,29 @@ class Cbt_user_grup_model extends CI_Model{
     }
 
     function get_group(){
-        $this->db->from($this->table)
-                 ->order_by('grup_nama', 'ASC');
+        $this->db
+            ->where(['school_id' => $this->session->userdata('school_id')])
+            ->from($this->table)
+            ->order_by('grup_nama', 'ASC');
         return $this->db->get();
     }
 	
 	function get_datatable($start, $rows, $kolom, $isi){
-		$this->db->where('('.$kolom.' LIKE "%'.$isi.'%")')
-                 ->from($this->table)
-				 ->order_by($kolom, 'ASC')
-                 ->limit($rows, $start);
+		$this->db
+            ->like($kolom, $isi)
+            ->where(['school_id' => $this->session->userdata('school_id')])
+            ->from($this->table)
+			->order_by($kolom, 'ASC')
+            ->limit($rows, $start);
         return $this->db->get();
 	}
     
     function get_datatable_count($kolom, $isi){
-		$this->db->select('COUNT(*) AS hasil')
-                 ->where('('.$kolom.' LIKE "%'.$isi.'%")')
-                 ->from($this->table);
+		$this->db
+            ->select('COUNT(*) AS hasil')
+            ->like($kolom, $isi)
+            ->where(['school_id' => $this->session->userdata('school_id')])
+            ->from($this->table);
         return $this->db->get();
 	}
 }

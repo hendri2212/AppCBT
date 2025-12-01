@@ -1,4 +1,3 @@
-<!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 		Peserta
@@ -10,14 +9,13 @@
 	</ol>
 </section>
 
-<!-- Main content -->
 <section class="content">
 	<div class="row">
         <div class="col-md-3">
                 <div class="box">
                     <div class="box-header with-border">
                         <div class="box-title">Pilih Group</div>
-                    </div><!-- /.box-header -->
+                    </div>
 
                     <div class="box-body">
                         <div class="form-group">
@@ -39,13 +37,13 @@
         <div class="col-md-9">
                 <div class="box">
                     <div class="box-header with-border">
-    						<div class="box-title">Daftar Peserta</div>
-    						<div class="box-tools pull-right">
-    							<div class="dropdown pull-right">
-    								<a style="cursor: pointer;" onclick="tambah()">Tambah Peserta</a>
-    							</div>
-    						</div>
-                    </div><!-- /.box-header -->
+                        <div class="box-title">Daftar Peserta</div>
+                        <div class="box-tools pull-right">
+                            <div class="dropdown pull-right">
+                                <a style="cursor: pointer;" onclick="tambah()">Tambah Peserta</a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="box-body">
                         <?php echo form_open($url.'/hapus_daftar_siswa','id="form-hapus"'); ?>
@@ -64,13 +62,13 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td> </td>
-                                    <td> </td>
-									<td> </td>
-                                    <td> </td>
-									<td> </td>
-                                    <td> </td>
-                                    <td> </td>
+                                    <td></td>
+                                    <td></td>
+									<td></td>
+                                    <td></td>
+									<td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>  
@@ -231,7 +229,7 @@
 
     </form>
     </div>
-</section><!-- /.content -->
+</section>
 
 
 

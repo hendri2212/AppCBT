@@ -14,67 +14,66 @@
 <section class="content">
 	<div class="row">
         <div class="col-md-12">
-                <div class="box">
-                    <div class="box-header with-border">
-    						<div class="box-title">Daftar Group</div>
-    						<div class="box-tools pull-right">
-    							<div class="dropdown pull-right">
-    								<a style="cursor: pointer;" onclick="tambah()">Tambah Group</a>
-    							</div>
-    						</div>
-                    </div><!-- /.box-header -->
-
-                    <div class="box-body">
-                        <table id="table-group" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Nama Group</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                            </tbody>
-                        </table>                        
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="box-title">Daftar Group</div>
+                    <div class="box-tools pull-right">
+                        <div class="dropdown pull-right">
+                            <a style="cursor: pointer;" onclick="tambah()">Tambah Group</a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="box-body">
+                    <table id="table-group" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Group</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>                        
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="modal" id="modal-tambah" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <?php echo form_open($url.'/tambah','id="form-tambah"'); ?>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal">&times;</button>
-                    <div id="trx-judul">Tambah Group</div>
-                </div>
-                <div class="modal-body">
-                    <div class="row-fluid">
-                        <div class="box-body">
-                            <div id="form-pesan"></div>
-                            <div class="form-group">
-                                <label>Nama Group</label>
-                                <input type="text" class="form-control" id="tambah-group" name="tambah-group" placeholder="Nama Group">
-                            </div>
+        <?php echo form_open($url.'/tambah','id="form-tambah"'); ?>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal">&times;</button>
+                        <div id="trx-judul">Tambah Group</div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            <div class="box-body">
+                                <div id="form-pesan"></div>
+                                <div class="form-group">
+                                    <label>Nama Group</label>
+                                    <input type="text" class="form-control" id="tambah-group" name="tambah-group" placeholder="Nama Group">
+                                </div>
 
-                            <p>NB : Group digunakan untuk mengelompokkan setiap user</p>
+                                <p>NB : Group digunakan untuk mengelompokkan setiap user</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="tambah-simpan" class="btn btn-primary">Tambah</button>
-                    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                    <div class="modal-footer">
+                        <button type="submit" id="tambah-simpan" class="btn btn-primary">Tambah</button>
+                        <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-    </form>
+        </form>
     </div>
 
     <div class="modal" id="modal-edit" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">

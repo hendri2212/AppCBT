@@ -5,7 +5,7 @@ class Peserta_daftar extends Member_Controller {
 	private $kelompok = 'peserta';
 	private $url = 'manager/peserta_daftar';
 	
-    function __construct(){
+    function __construct() {
 		parent:: __construct();
 		$this->load->model('cbt_user_grup_model');
 		$this->load->model('cbt_user_model');
@@ -13,7 +13,7 @@ class Peserta_daftar extends Member_Controller {
 		parent::cek_akses($this->kode_menu);
 	}
 	
-    public function index(){
+    public function index() {
         $data['kode_menu'] = $this->kode_menu;
         $data['url'] = $this->url;
 

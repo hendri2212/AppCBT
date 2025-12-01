@@ -26,7 +26,10 @@ class Peserta_group extends Member_Controller {
         $this->form_validation->set_rules('tambah-group', 'Nama Group','required|strip_tags');
         
         if($this->form_validation->run() == TRUE){
-            $data['grup_nama'] = $this->input->post('tambah-group', true);
+            $data = [
+				'grup_nama' => $this->input->post('tambah-group', true),
+				'school_id' => $this->session->userdata('school_id')
+			];
 
             if($this->cbt_user_grup_model->count_by_kolom('grup_nama', $data['grup_nama'])->row()->hasil>0){
                 $status['status'] = 0;
@@ -152,12 +155,6 @@ class Peserta_group extends Member_Controller {
         
 		echo json_encode($output);
 	}
-	
-	/**
-	* funsi tambahan 
-	* 
-	* 
-*/
 	
 	function get_start() {
 		$start = 0;

@@ -63,28 +63,36 @@ class Cbt_user_model extends CI_Model{
         return ($query->num_rows() > 0) ? $query->row() : FALSE;
     }
 	
-	function get_datatable($start, $rows, $kolom, $isi, $group){
-        $query = '';
+    function get_datatable($start, $rows, $kolom, $isi, $group){
+        $this->db
+            ->from($this->table)
+            ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
+            ->like('cbt_user.'.$kolom, $isi)
+            ->where(['cbt_user_grup.school_id' => $this->session->userdata('school_id')])
+            ->order_by('cbt_user.'.$kolom, 'ASC')
+            ->limit($rows, $start);
+
         if($group!='semua'){
-            $query = 'AND user_grup_id='.$group;
+            $this->db->where('cbt_user.user_grup_id', $group);
         }
-		$this->db->where('('.$kolom.' LIKE "%'.$isi.'%" '.$query.')')
-                 ->from($this->table)
-				 ->order_by($kolom, 'ASC')
-                 ->limit($rows, $start);
+
         return $this->db->get();
-	}
+    }
     
     function get_datatable_count($kolom, $isi, $group){
-        $query = '';
+        $this->db
+            ->select('COUNT(*) AS hasil')
+            ->from($this->table)
+            ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
+            ->like('cbt_user.'.$kolom, $isi)
+            ->where(['cbt_user_grup.school_id' => $this->session->userdata('school_id')]);
+
         if($group!='semua'){
-            $query = 'AND user_grup_id='.$group;
+            $this->db->where('cbt_user.user_grup_id', $group);
         }
-		$this->db->select('COUNT(*) AS hasil')
-                 ->where('('.$kolom.' LIKE "%'.$isi.'%" '.$query.')')
-                 ->from($this->table);
+
         return $this->db->get();
-	}
+    }
 	
 	/**
 	* export data user yang belum mengerjakan
