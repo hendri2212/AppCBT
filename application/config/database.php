@@ -73,17 +73,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : php_sapi_name();
+$is_local = in_array($host, array('localhost', '127.0.0.1')) || $host === 'cli' || strpos($host, '.local') !== FALSE;
+
+$credentials = $is_local ? array(
+	'username' => 'root',
+	'password' => '',
+	'database' => 'zyacbt'
+) : array(
+	'username' => 'admin_hendri2212',
+	'password' => 'admin_hendri2212',
+	'database' => 'admin_cbt'
+);
+
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'zyacbt',
-	
-	// 'hostname' => '103.30.145.195',
-	// 'username' => 'admin_hendri2212',
-	// 'password' => 'admin_hendri2212',
-	// 'database' => 'admin_zyacbt',
+	'username' => $credentials['username'],
+	'password' => $credentials['password'],
+	'database' => $credentials['database'],
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
