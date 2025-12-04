@@ -91,7 +91,7 @@
 			?>
             </div>
             <div class="container">
-                © <?php echo date('Y'); ?> Saijaan Test. All rights reserved.
+                <strong>© <?php echo date('Y'); ?> Saijaan Test. All rights reserved.</strong>
             </div>
         </footer>
     </div>

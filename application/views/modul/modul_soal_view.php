@@ -18,18 +18,16 @@
                 </div>
 
                 <div class="box-body">
-                    <div class="col-xs-2"></div>
-                    <div class="col-xs-8">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Pilih Topik</label>
-                            <div class="col-sm-9">
+                            <label class="col-xs-12 col-sm-3 control-label">Pilih Topik</label>
+                            <div class="col-xs-12 col-sm-9">
                                 <select name="topik" id="topik" class="form-control input-sm">
                                     <?php if(!empty($select_topik)){ echo $select_topik; } ?>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-2"></div>
                 </div>
                 <div class="box-footer">
                     <p>Pilih terlebih dahulu Topik yang akan digunakan sebelum menambah atau mengubah soal</p>
