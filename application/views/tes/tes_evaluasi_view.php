@@ -52,6 +52,11 @@
 			<div class="box">
 				<div class="box-header with-border">
 					<div class="box-title">Daftar Jawaban</div>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-success btn-sm" onclick="export_excel()">
+							<i class="fa fa-file-excel-o"></i> Export Excel
+						</button>
+					</div>
 				</div><!-- /.box-header -->
 
                 <div class="box-body">
@@ -126,6 +131,18 @@
 <script lang="javascript">
     function refresh_table(){
         $('#table-jawaban').dataTable().fnReloadAjax();
+    }
+
+    function export_excel(){
+        var tes_id = $('#pilih-tes').val();
+        var urutkan = $('#pilih-urutkan').val();
+        
+        if(!tes_id || tes_id == ''){
+            alert('Silakan pilih Tes terlebih dahulu');
+            return;
+        }
+        
+        window.location.href = '<?php echo site_url().'/'.$url; ?>/export_excel/' + tes_id + '/' + urutkan;
     }
 
     function evaluasi(id, nilai_min, nilai_max){

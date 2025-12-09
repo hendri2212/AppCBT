@@ -315,6 +315,38 @@ class Cbt_tes_user_model extends CI_Model{
     }
 
     /**
+     * Get all evaluasi data without limit for export
+     *
+     * @param      string  $tes_id   The tes identifier
+     * @param      string  $urutkan  The order
+     *
+     * @return     object  Query result
+     */
+    function get_all_evaluasi($tes_id, $urutkan = 'soal'){
+        $sql = '';
+        if(!empty($tes_id)){
+            $sql = ' AND tesuser_tes_id="'.$tes_id.'"';
+        }
+        $order = '';
+        if($urutkan=='soal'){
+            $order = 'cbt_tes_soal.tessoal_soal_id ASC';
+        }else{
+            $order = 'cbt_tes_user.tesuser_id ASC';
+        }
+
+        $this->db->select('cbt_tes_soal.tessoal_id, cbt_tes_soal.tessoal_jawaban_text, cbt_tes.*, cbt_soal.*, cbt_user.user_firstname, cbt_user_grup.grup_nama')
+                 ->where('(soal_tipe="2" AND tessoal_jawaban_text IS NOT NULL AND tessoal_comment IS NULL '.$sql.' )')
+                 ->from($this->table)
+                 ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
+                 ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
+                 ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
+                 ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id', 'left')
+                 ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id', 'left')
+                 ->order_by($order);
+        return $this->db->get();
+    }
+
+    /**
      * Datatable untuk hasil tes operator
      *
      * @param      <type>  $start  The start

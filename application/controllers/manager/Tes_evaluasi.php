@@ -1,4 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 class Tes_evaluasi extends Member_Controller {
 	private $kode_menu = 'tes-evaluasi';
 	private $kelompok = 'tes';
@@ -199,5 +205,112 @@ class Tes_evaluasi extends Member_Controller {
 		}
 
 		return $sort_dir;
+	}
+
+	/**
+	 * Export data evaluasi jawaban ke Excel
+	 */
+	function export_excel($tes_id = null, $urutkan = 'soal'){
+		if(empty($tes_id)){
+			show_error('Parameter tes_id diperlukan');
+			return;
+		}
+
+		// Get all data without limit
+		$query = $this->cbt_tes_user_model->get_all_evaluasi($tes_id, $urutkan);
+
+		if($query->num_rows() == 0){
+			show_error('Tidak ada data untuk di-export');
+			return;
+		}
+
+		// Get test name for filename
+		$tes_data = $this->cbt_tes_model->get_by_kolom('tes_id', $tes_id);
+		$tes_nama = 'Evaluasi';
+		if($tes_data->num_rows() > 0){
+			$tes_nama = $tes_data->row()->tes_nama;
+		}
+
+		$excel = new Spreadsheet();
+		$align = new Alignment();
+		$border = new Border();
+
+		$styleArray = [
+			'borders' => [
+				'allBorders' => [
+					'borderStyle' => $border::BORDER_THIN,
+					'color' => ['argb' => '000000'],
+				],
+			],
+		];
+
+		$worksheet = $excel->getActiveSheet();
+		
+		// Title
+		$worksheet->setCellValueByColumnAndRow(1, 1, 'EVALUASI JAWABAN ESSAY');
+		$worksheet->mergeCells('A1:E1');
+		$worksheet->getStyle('A1:E1')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+		$worksheet->getStyle('A1:E1')->getFont()->setBold(true);
+		$worksheet->getStyle('A1:E1')->getFont()->setSize(14);
+
+		$worksheet->setCellValueByColumnAndRow(1, 2, strtoupper($tes_nama));
+		$worksheet->mergeCells('A2:E2');
+		$worksheet->getStyle('A2:E2')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+		$worksheet->getStyle('A2:E2')->getFont()->setBold(true);
+
+		// Column widths
+		$worksheet->getColumnDimension('A')->setWidth(5);
+		$worksheet->getColumnDimension('B')->setWidth(25);
+		$worksheet->getColumnDimension('C')->setWidth(15);
+		$worksheet->getColumnDimension('D')->setWidth(50);
+		$worksheet->getColumnDimension('E')->setWidth(50);
+
+		// Headers
+		$worksheet->setCellValueByColumnAndRow(1, 4, 'No');
+		$worksheet->setCellValueByColumnAndRow(2, 4, 'Nama Siswa');
+		$worksheet->setCellValueByColumnAndRow(3, 4, 'Kelas');
+		$worksheet->setCellValueByColumnAndRow(4, 4, 'Soal');
+		$worksheet->setCellValueByColumnAndRow(5, 4, 'Jawaban');
+		$worksheet->getStyle('4')->getFont()->setBold(true);
+		$worksheet->getStyle('A4:E4')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+
+		// Data rows
+		$query_result = $query->result();
+		$row = 5;
+		$no = 1;
+		foreach ($query_result as $temp) {
+			$soal = strip_tags($temp->soal_detail);
+			$soal = str_replace("[base_url]", "", $soal);
+			
+			$jawaban = $temp->tessoal_jawaban_text;
+			
+			$nama_siswa = isset($temp->user_firstname) && $temp->user_firstname ? $temp->user_firstname : '-';
+			$kelas = isset($temp->grup_nama) && $temp->grup_nama ? $temp->grup_nama : '-';
+
+			$worksheet->setCellValueByColumnAndRow(1, $row, $no);
+			$worksheet->setCellValueByColumnAndRow(2, $row, $nama_siswa);
+			$worksheet->setCellValueByColumnAndRow(3, $row, $kelas);
+			$worksheet->setCellValueByColumnAndRow(4, $row, $soal);
+			$worksheet->setCellValueByColumnAndRow(5, $row, $jawaban);
+
+			$row++;
+			$no++;
+		}
+
+		// Apply borders to data area
+		$lastRow = $row - 1;
+		$worksheet->getStyle('A4:E'.$lastRow)->applyFromArray($styleArray);
+		$worksheet->getStyle('A4:A'.$lastRow)->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
+		
+		// Wrap text for soal and jawaban columns
+		$worksheet->getStyle('D5:E'.$lastRow)->getAlignment()->setWrapText(true);
+
+		$filename = 'Evaluasi Jawaban - ' . $tes_nama . ' - ' . date('Y-m-d H-i') . '.xlsx';
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+
+		$objWriter = new Xlsx($excel);
+		$objWriter->save('php://output');
 	}
 }
