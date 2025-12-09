@@ -287,7 +287,7 @@ class Cbt_tes_user_model extends CI_Model{
             $order = 'cbt_tes_user.tesuser_id ASC';
         }
 
-        $this->db->select('cbt_tes_soal.tessoal_id, cbt_tes_soal.tessoal_jawaban_text, cbt_tes.*, cbt_soal.*, cbt_user.user_firstname, cbt_user.user_lastname, cbt_user_grup.grup_nama')
+        $this->db->select('cbt_tes_soal.tessoal_id, cbt_tes_soal.tessoal_jawaban_text, cbt_tes.*, cbt_soal.*, cbt_user.user_firstname, cbt_user_grup.grup_nama')
                  ->where('(soal_tipe="2" AND tessoal_jawaban_text IS NOT NULL AND tessoal_comment IS NULL '.$sql.' )')
                  ->from($this->table)
                  ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')

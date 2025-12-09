@@ -135,10 +135,8 @@ class Tes_evaluasi extends Member_Controller {
 			$record[] = ++$i;
 			
 			// Nama siswa dan kelas
-			$firstname = isset($temp->user_firstname) ? $temp->user_firstname : '';
-			$lastname = isset($temp->user_lastname) ? $temp->user_lastname : '';
-			$nama_siswa = trim($firstname.' '.$lastname);
-			$record[] = $nama_siswa ?: '-';
+			$nama_siswa = isset($temp->user_firstname) && $temp->user_firstname ? $temp->user_firstname : '-';
+			$record[] = $nama_siswa;
 			$record[] = isset($temp->grup_nama) && $temp->grup_nama ? $temp->grup_nama : '-';
 			
             $record[] = $soal;
