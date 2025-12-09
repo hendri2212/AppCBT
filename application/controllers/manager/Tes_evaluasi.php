@@ -133,6 +133,12 @@ class Tes_evaluasi extends Member_Controller {
             $soal = str_replace("[base_url]", base_url(), $soal);
             
 			$record[] = ++$i;
+			
+			// Nama siswa dan kelas
+			$nama_siswa = $temp->user_firstname.' '.$temp->user_lastname;
+			$record[] = $nama_siswa;
+			$record[] = $temp->grup_nama;
+			
             $record[] = $soal;
 			// $record[] = '<div style="width:600px;"><pre style="white-space: pre-wrap;word-wrap: break-word;">'.$temp->tessoal_jawaban_text.'</pre></div>';
 
