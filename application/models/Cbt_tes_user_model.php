@@ -282,9 +282,9 @@ class Cbt_tes_user_model extends CI_Model{
         }
         $order = '';
         if($urutkan=='soal'){
-            $order = 'tessoal_soal_id ASC';
+            $order = 'cbt_tes_soal.tessoal_soal_id ASC';
         }else{
-            $order = 'tesuser_id ASC';
+            $order = 'cbt_tes_user.tesuser_id ASC';
         }
 
         $this->db->select('cbt_tes_soal.tessoal_id, cbt_tes_soal.tessoal_jawaban_text, cbt_tes.*, cbt_soal.*, cbt_user.user_firstname, cbt_user.user_lastname, cbt_user_grup.grup_nama')
@@ -293,8 +293,8 @@ class Cbt_tes_user_model extends CI_Model{
                  ->join('cbt_tes', 'cbt_tes_user.tesuser_tes_id = cbt_tes.tes_id')
                  ->join('cbt_tes_soal', 'cbt_tes_soal.tessoal_tesuser_id = cbt_tes_user.tesuser_id')
                  ->join('cbt_soal', 'cbt_tes_soal.tessoal_soal_id = cbt_soal.soal_id')
-                 ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id')
-                 ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id')
+                 ->join('cbt_user', 'cbt_tes_user.tesuser_user_id = cbt_user.user_id', 'left')
+                 ->join('cbt_user_grup', 'cbt_user.user_grup_id = cbt_user_grup.grup_id', 'left')
                  ->order_by($order)
                  ->limit($rows, $start);
         return $this->db->get();
