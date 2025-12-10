@@ -140,7 +140,13 @@ class Tes_hasil extends Member_Controller {
             // $inputFileName = './public/form/form-data-hasil-tes.xls';
             // $excel = PHPExcel_IOFactory::load($inputFileName);
             // $worksheet = $excel->getSheet(0);
-			$data = $query->row();
+			$hasData = $query->num_rows()>0;
+			if($hasData){
+				$data = $query->row();
+				$tesNama = strtoupper($data->tes_nama);
+			}else{
+				$tesNama = 'DATA TIDAK DITEMUKAN';
+			}
 			$excel		= new Spreadsheet();
 			$align		= new Alignment();
 			$drawing	= new Drawing();
@@ -175,7 +181,7 @@ class Tes_hasil extends Member_Controller {
 			$worksheet->getColumnDimension('F')->setWidth(25);
 
 			
-			$worksheet->setCellValueByColumnAndRow(1, 2, strtoupper($data->tes_nama));
+			$worksheet->setCellValueByColumnAndRow(1, 2, $tesNama);
 			$worksheet->mergeCells('A2:F2');
 			$worksheet->getStyle('A2:F2')->getAlignment()->setHorizontal($align::HORIZONTAL_CENTER);
 			$worksheet->getStyle('4')->getFont()->setBold(true);
@@ -205,7 +211,7 @@ class Tes_hasil extends Member_Controller {
 			// $drawing->setWorksheet($excel->getActiveSheet());
 
 
-            if($query->num_rows()>0){
+            if($hasData){
                 $query = $query->result();
                 $row = 5;
                 foreach ($query as $temp) {
