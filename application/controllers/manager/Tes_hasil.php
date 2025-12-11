@@ -79,6 +79,17 @@ class Tes_hasil extends Member_Controller {
             if($pilihan=='hapus'){
                 foreach( $tesuser_id as $kunci => $isi ) {
                     if($isi=="on"){
+                        // Get all tessoal_id related to this tesuser before deleting
+                        $query_tessoal = $this->cbt_tes_soal_model->get_by_kolom('tessoal_tesuser_id', $kunci);
+                        if($query_tessoal->num_rows() > 0){
+                            foreach($query_tessoal->result() as $tessoal){
+                                // Delete from cbt_tes_soal_jawaban first (child table)
+                                $this->cbt_tes_soal_jawaban_model->delete('soaljawaban_tessoal_id', $tessoal->tessoal_id);
+                            }
+                        }
+                        // Delete from cbt_tes_soal
+                        $this->cbt_tes_soal_model->delete('tessoal_tesuser_id', $kunci);
+                        // Finally delete from cbt_tes_user (parent table)
                         $this->cbt_tes_user_model->delete('tesuser_id', $kunci);
                     }
                 }
