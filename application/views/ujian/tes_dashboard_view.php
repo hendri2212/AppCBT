@@ -35,7 +35,7 @@
         <div class="box box-success box-solid">
             <div class="box-header with-border" style="overflow:hidden;">
                 <h3 class="box-title" style="margin:0;float:left;text-align:left;">Daftar Tes</h3>
-                <h3 class="box-title" style="margin:0;float:right;text-align:right;"><a href="exit:android">Selesai Ujian & Keluar</a></h3>
+                <h3 class="box-title" style="margin:0;float:right;text-align:right;"><a href="exit:android" id="btn-exit-android" class="btn btn-danger btn-sm" style="display:none;"><i class="fa fa-sign-out"></i> Selesai Ujian & Keluar</a></h3>
             </div>
             <div class="box-body">
                 <table id="table-tes" class="table table-bordered table-hover">
@@ -83,6 +83,17 @@
                   "sAjaxSource": "<?php echo site_url().'/'.$url; ?>/get_datatable/",
                   "autoWidth": false,
                   "responsive": true
-         });   
+         });
+         
+        // Detect Android WebView and show exit button
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isAndroid = userAgent.indexOf('android') > -1;
+        var isWebView = userAgent.indexOf('wv') > -1 || userAgent.indexOf('webview') > -1;
+        
+        // Also check for custom Android app identifier if you have one
+        // or check if running in standalone mode
+        if (isAndroid || isWebView || window.Android !== undefined) {
+            $('#btn-exit-android').show();
+        }
     });
 </script>
