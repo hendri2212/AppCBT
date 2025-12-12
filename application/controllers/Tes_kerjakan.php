@@ -18,6 +18,8 @@ class Tes_kerjakan extends Tes_Controller {
 		$this->load->model('cbt_jawaban_model');
 		$this->load->model('cbt_tes_soal_model');
 		$this->load->model('cbt_tes_soal_jawaban_model');
+		$this->load->model('cbt_tes_user_violation_model');
+		$this->load->model('users_model');
 
         $this->username = $this->access_tes->get_username();
         $this->user_id = $this->cbt_user_model->get_by_kolom_limit('user_name', $this->username, 1)->row()->user_id;
@@ -521,6 +523,121 @@ class Tes_kerjakan extends Tes_Controller {
             $this->cbt_tes_soal_model->update('tessoal_id ', $tessoal_id, $data_tes);
             $data['pesan'] = 'Audio berhasil diputar';
         }
+        echo json_encode($data);
+    }
+
+    /**
+     * Menyimpan log pelanggaran tab switch
+     * Dipanggil via AJAX ketika user meninggalkan halaman ujian
+     */
+    function log_tab_switch(){
+        $data['data'] = 0;
+        
+        $tesuser_id = $this->input->post('tesuser_id', TRUE);
+        $violation_type = $this->input->post('violation_type', TRUE);
+        
+        if(!empty($tesuser_id)){
+            // Ambil data siswa dan tes untuk notifikasi
+            $query_tesuser = $this->cbt_tes_user_model->get_by_kolom('tesuser_id', $tesuser_id);
+            $tesuser_data = null;
+            $student_name = 'Unknown';
+            $test_name = 'Unknown';
+            
+            if($query_tesuser->num_rows() > 0){
+                $tesuser_data = $query_tesuser->row();
+                // Ambil nama siswa
+                $query_user = $this->cbt_user_model->get_by_kolom('user_id', $tesuser_data->tesuser_user_id);
+                if($query_user->num_rows() > 0){
+                    $student_name = $query_user->row()->user_firstname;
+                }
+                // Ambil nama tes dan user_id pembuat tes
+                $query_tes = $this->cbt_tes_model->get_by_kolom('tes_id', $tesuser_data->tesuser_tes_id);
+                $tes_creator_id = null;
+                if($query_tes->num_rows() > 0){
+                    $test_name = $query_tes->row()->tes_nama;
+                    $tes_creator_id = $query_tes->row()->user_id;
+                }
+            }
+            
+            // Ambil telegram_id dari pembuat tes (dari tabel user)
+            $telegram_id = null;
+            if(!empty($tes_creator_id)){
+                $query_creator = $this->users_model->get_user_by_id($tes_creator_id);
+                if($query_creator->num_rows() > 0 && !empty($query_creator->row()->telegram_id)){
+                    $telegram_id = $query_creator->row()->telegram_id;
+                }
+            }
+            
+            // Simpan log pelanggaran
+            $violation_data = array(
+                'violation_tesuser_id' => $tesuser_id,
+                'violation_type' => $violation_type, // 'tab_switch' atau 'window_blur'
+                'violation_time' => date('Y-m-d H:i:s'),
+                'violation_ip' => $this->input->ip_address()
+            );
+            
+            $this->cbt_tes_user_violation_model->save($violation_data);
+            
+            // Hitung total pelanggaran
+            $total_violations = $this->cbt_tes_user_violation_model->count_by_tesuser($tesuser_id)->row()->hasil;
+            
+            // Kirim notifikasi Telegram ke pengawas (hanya jika telegram_id tersedia)
+            if(!empty($telegram_id)){
+                $this->send_telegram_violation_alert($student_name, $test_name, $violation_type, $total_violations, $telegram_id);
+            }
+            
+            $data['data'] = 1;
+            $data['total_violations'] = $total_violations;
+            $data['pesan'] = 'Pelanggaran tercatat';
+        }
+        
+        echo json_encode($data);
+    }
+
+    /**
+     * Mengirim notifikasi pelanggaran ke Telegram pengawas
+     */
+    private function send_telegram_violation_alert($student_name, $test_name, $violation_type, $total_violations, $telegram_id){
+        $violation_text = ($violation_type == 'tab_switch') ? 'membuka tab lain' : 'beralih ke aplikasi lain';
+        
+        $message = "⚠️ *PERINGATAN UJIAN*\n\n";
+        $message .= "👤 Siswa: *" . $student_name . "*\n";
+        $message .= "📝 Tes: " . $test_name . "\n";
+        $message .= "🚨 Pelanggaran: " . $violation_text . "\n";
+        $message .= "📊 Total Pelanggaran: *" . $total_violations . " kali*\n";
+        $message .= "🕐 Waktu: " . date('H:i:s d/m/Y');
+        
+        $telegram_data = array(
+            'message' => $message,
+            'to' => array(intval($telegram_id))
+        );
+        
+        $ch = curl_init('https://telebot.saijaan.com/send');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($telegram_data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json'
+        ));
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5); // Timeout 5 detik agar tidak menghambat response
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        curl_exec($ch);
+        curl_close($ch);
+    }
+
+    /**
+     * Mendapatkan jumlah pelanggaran berdasarkan tesuser_id
+     */
+    function get_violation_count($tesuser_id=null){
+        $data['data'] = 0;
+        $data['total_violations'] = 0;
+        
+        if(!empty($tesuser_id)){
+            $data['data'] = 1;
+            $data['total_violations'] = $this->cbt_tes_user_violation_model->count_by_tesuser($tesuser_id)->row()->hasil;
+        }
+        
         echo json_encode($data);
     }
 }

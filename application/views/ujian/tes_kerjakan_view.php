@@ -1,4 +1,34 @@
-<div class="container">
+<!-- CSS Anti Copy-Paste & Selection -->
+<style>
+    /* Disable text selection on exam content */
+    .no-select {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+    }
+    
+    /* Disable image dragging */
+    .no-select img {
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+        pointer-events: none;
+    }
+    
+    /* Prevent text selection highlight */
+    .no-select::selection {
+        background: transparent;
+    }
+    .no-select::-moz-selection {
+        background: transparent;
+    }
+</style>
+
+<div class="container no-select">
 	<!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -108,6 +138,32 @@
 
     </form>
     </div>
+
+    <!-- Modal Warning Tab Switch -->
+    <div class="modal" id="modal-warning-tabswitch" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="warningModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-red">
+                    <div id="warning-judul"><i class="fa fa-exclamation-triangle"></i> PERINGATAN!</div>
+                </div>
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class="box-body text-center">
+                            <h4><i class="fa fa-eye text-red"></i> Anda Terdeteksi Meninggalkan Halaman Ujian!</h4>
+                            <p class="text-muted">Membuka tab lain atau aplikasi lain saat ujian berlangsung tidak diperbolehkan.</p>
+                            <hr>
+                            <p><strong>Total Pelanggaran: <span id="warning-violation-count" class="text-red">0</span> kali</strong></p>
+                            <p class="text-muted small">Setiap pelanggaran akan dicatat dan dilaporkan kepada pengawas ujian.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Saya Mengerti, Lanjutkan Ujian</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div><!-- /.container -->
 
 <script type="text/javascript">
@@ -433,7 +489,185 @@
         });
 
         $( document ).ready(function() {
+            /**
+             * ======================================
+             * ANTI COPY-PASTE & SCREENSHOT PROTECTION
+             * ======================================
+             */
             
+            // Disable right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                notify_error('Klik kanan tidak diperbolehkan selama ujian!');
+                return false;
+            });
+
+            // Disable keyboard shortcuts for copy, paste, cut, select all, print
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+A, Ctrl+P, Ctrl+S
+                if (e.ctrlKey && (
+                    e.key === 'c' || e.key === 'C' ||
+                    e.key === 'v' || e.key === 'V' ||
+                    e.key === 'x' || e.key === 'X' ||
+                    e.key === 'a' || e.key === 'A' ||
+                    e.key === 'p' || e.key === 'P' ||
+                    e.key === 's' || e.key === 'S'
+                )) {
+                    e.preventDefault();
+                    notify_error('Shortcut keyboard tidak diperbolehkan selama ujian!');
+                    return false;
+                }
+                
+                // PrintScreen key
+                if (e.key === 'PrintScreen') {
+                    e.preventDefault();
+                    notify_error('Screenshot tidak diperbolehkan selama ujian!');
+                    // Clear clipboard as additional measure
+                    navigator.clipboard.writeText('').catch(function(){});
+                    return false;
+                }
+                
+                // F12 (DevTools)
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // Ctrl+Shift+I (DevTools)
+                if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Disable copy event
+            document.addEventListener('copy', function(e) {
+                e.preventDefault();
+                notify_error('Copy tidak diperbolehkan selama ujian!');
+                return false;
+            });
+
+            // Disable cut event
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                notify_error('Cut tidak diperbolehkan selama ujian!');
+                return false;
+            });
+
+            // Disable paste event (except in textarea for essay answers)
+            document.addEventListener('paste', function(e) {
+                var target = e.target;
+                // Allow paste only in textarea for essay answers
+                if (target.tagName !== 'TEXTAREA' && target.id !== 'soal-jawaban') {
+                    e.preventDefault();
+                    notify_error('Paste tidak diperbolehkan selama ujian!');
+                    return false;
+                }
+            });
+
+            // Disable drag events
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Disable drop events
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            /**
+             * ======================================
+             * TAB SWITCH DETECTION (existing code)
+             * ======================================
+             */
+            
+            // Inisialisasi counter pelanggaran
+            var tabSwitchCount = 0;
+            var isPageHidden = false;
+            var tesUserId = $('#tes-user-id').val();
+
+            /**
+             * Function untuk mencatat pelanggaran tab switch ke server
+             */
+            function logTabSwitch(violationType) {
+                $.ajax({
+                    url: '<?php echo site_url().'/'.$url; ?>/log_tab_switch',
+                    type: 'POST',
+                    data: {
+                        tesuser_id: tesUserId,
+                        violation_type: violationType
+                    },
+                    cache: false,
+                    success: function(respon) {
+                        var data = $.parseJSON(respon);
+                        if(data.data == 1) {
+                            tabSwitchCount = data.total_violations;
+                        }
+                    }
+                });
+            }
+
+            /**
+             * Function untuk menampilkan warning modal
+             */
+            function showTabWarning() {
+                $('#warning-violation-count').text(tabSwitchCount);
+                $('#modal-warning-tabswitch').modal('show');
+            }
+
+            /**
+             * Page Visibility API - Deteksi ketika user switch tab
+             */
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    // User meninggalkan tab (switch ke tab lain)
+                    isPageHidden = true;
+                    logTabSwitch('tab_switch');
+                } else {
+                    // User kembali ke tab ujian
+                    if (isPageHidden) {
+                        isPageHidden = false;
+                        // Update counter dari response AJAX sebelumnya, lalu tampilkan warning
+                        setTimeout(function() {
+                            showTabWarning();
+                        }, 300);
+                    }
+                }
+            });
+
+            /**
+             * Window blur event - Deteksi ketika window kehilangan fokus (alt+tab, minimize, dll)
+             * Hanya trigger jika bukan karena visibility change
+             */
+            var blurTimeout;
+            window.addEventListener('blur', function() {
+                // Hindari double counting dengan visibilitychange
+                if (!document.hidden) {
+                    blurTimeout = setTimeout(function() {
+                        logTabSwitch('window_blur');
+                    }, 100);
+                }
+            });
+
+            window.addEventListener('focus', function() {
+                // Clear timeout jika focus kembali dengan cepat
+                clearTimeout(blurTimeout);
+                // Tampilkan warning jika ada pelanggaran
+                if (tabSwitchCount > 0 && !$('#modal-warning-tabswitch').hasClass('in')) {
+                    setTimeout(function() {
+                        showTabWarning();
+                    }, 300);
+                }
+            });
+
+            // Load jumlah pelanggaran saat halaman dimuat
+            $.getJSON('<?php echo site_url().'/'.$url; ?>/get_violation_count/' + tesUserId, function(data) {
+                if(data.data == 1) {
+                    tabSwitchCount = data.total_violations;
+                }
+            });
         });
     });
 </script>
